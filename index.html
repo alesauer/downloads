@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Pedido</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-6 rounded shadow-md w-full max-w-md">
+        <h2 class="text-2xl font-bold mb-4">Formulário de Pedido</h2>
+        <form id="orderForm">
+            <div class="mb-4">
+                <label for="name" class="block text-sm font-medium text-gray-700">Nome</label>
+                <input type="text" id="name" name="name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+            </div>
+            <div class="mb-4">
+                <label for="address" class="block text-sm font-medium text-gray-700">Endereço</label>
+                <input type="text" id="address" name="address" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+            </div>
+            <div class="mb-4">
+                <label for="phone" class="block text-sm font-medium text-gray-700">Telefone</label>
+                <input type="tel" id="phone" name="phone" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+            </div>
+            <div class="mb-4">
+                <label for="order" class="block text-sm font-medium text-gray-700">Pedido</label>
+                <select id="order" name="order" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                    <option value="" disabled selected>Selecione uma opção</option>
+                    <option value="opcao1">Opção 01</option>
+                    <option value="opcao2">Opção 02</option>
+                    <option value="opcao3">Opção 03</option>
+                    <option value="opcao4">Opção 04</option>
+                    <option value="opcao5">Opção 05</option>
+                </select>
+            </div>
+            <button type="submit" class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Enviar Pedido</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('orderForm');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const data = {
+                name: form.name.value,
+                address: form.address.value,
+                phone: form.phone.value,
+                order: form.order.value,
+            };
+
+            try {
+                const response = await fetch('https://n8n.sauer.pro.br/webhook-test/539ff78c-2ee5-40c3-89ee-6d1de2ec0a30', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (response.ok) {
+                    alert('Pedido enviado com sucesso!');
+                } else {
+                    alert('Erro ao enviar o pedido.');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao enviar o pedido.');
+            }
+        });
+    </script>
+</body>
+</html>
